@@ -1,0 +1,40 @@
+# wrangler.toml
+name = "bookmind-ai-studio"
+compatibility_date = "2023-12-01"
+
+# Local development database
+[[d1_databases]]
+binding = "DB"
+database_name = "bookmind_local"
+database_id = "10183848-4cc7-4198-b8c7-1374015ab09c"
+
+# Production database configuration
+[env.production]
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "bookmind_production"
+database_id = "${PRODUCTION_DB_ID}"
+
+# Routes configuration
+[routes]
+include = ["/*"]
+exclude = ["/api/*"]
+
+# Build configuration
+[build]
+command = "npm run build"
+upload.format = "service-worker"
+
+# Site configuration
+[site]
+bucket = ".next/static"
+
+# Environment variables
+[vars]
+NODE_ENV = "production"
+NEXT_PUBLIC_APP_URL = "https://bookmind-ai-studio.pages.dev"
+
+# KV namespace for caching
+[[kv_namespaces]]
+binding = "CACHE"
+id = "${KV_NAMESPACE_ID}"
